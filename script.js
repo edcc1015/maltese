@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const video = document.getElementById('intro-video');
     const skipBtn = document.getElementById('skip-btn');
+    const playBtn = document.getElementById('play-btn');
     
     const passwordInput = document.getElementById('password-input');
     const submitBtn = document.getElementById('submit-btn');
@@ -16,23 +17,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const letterPaper = document.querySelector('.letter-paper');
     const letterText = document.getElementById('letter-text');
 
-    // 信件内容 (从a.txt读取的内容)
-    const letterContent = `亲爱的小白，展信舒。
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa`;
+    // 信件内容 (从 src/letter.txt 读取)
+    let letterContent = "正在加载信件...";
+    
+    fetch('src/letter.txt')
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.text();
+        })
+        .then(text => {
+            letterContent = text;
+        })
+        .catch(error => {
+            console.error('Error loading letter:', error);
+            letterContent = "亲爱的小白，信件加载出错了，请联系我...";
+        });
 
     // 1. 视频播放逻辑
+    
+    // 兼容微信自动播放（微信浏览器特有）
+    document.addEventListener("WeixinJSBridgeReady", function () {
+        video.play();
+    }, false);
+
     // 尝试自动播放
-    video.play().catch(error => {
-        console.log("自动播放被阻止，等待用户交互");
+    video.muted = false; // 确保开启声音
+    const playPromise = video.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log("带声音自动播放被阻止，等待用户交互");
+            playBtn.innerHTML = "点击屏幕<br>开启惊喜";
+            playBtn.classList.remove('hidden');
+            
+            // 只要用户点击屏幕任何地方，就开始播放
+            const startPlay = () => {
+                video.play();
+                playBtn.classList.add('hidden');
+                // 移除监听器
+                document.removeEventListener('click', startPlay);
+                document.removeEventListener('touchstart', startPlay);
+            };
+            
+            document.addEventListener('click', startPlay);
+            document.addEventListener('touchstart', startPlay);
+        });
+    }
+    
+    // 保留按钮点击作为双重保障
+    playBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // 防止冒泡触发上面的document监听器（虽然没坏处）
+        video.play();
+        playBtn.classList.add('hidden');
     });
 
     // 视频结束事件

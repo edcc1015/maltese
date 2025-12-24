@@ -36,9 +36,11 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-size: cover;
+    background-size: contain; /* 改为 contain 以完整显示图片 */
+    background-repeat: no-repeat; /* 防止图片重复 */
     background-position: center;
-    filter: brightness(0.8); /* 稍微压暗背景以突出内容 */
+    background-color: #ffffff; /* 留白部分显示白色 */
+    filter: brightness(0.9); /* 稍微调亮一点，因为现在有白边了 */
     z-index: -1;
 }
 
@@ -214,4 +216,27 @@ video {
 .letter-paper::-webkit-scrollbar-thumb {
     background-color: #ccc;
     border-radius: 3px;
+}
+
+#play-btn {
+    position: absolute;
+    z-index: 10;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.hidden {
+    display: none !important;
 }

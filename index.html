@@ -10,16 +10,17 @@
 
     <!-- 第一部分：视频播放 -->
     <div id="video-section" class="section active">
-        <video id="intro-video" playsinline>
-            <source src="A.mp4" type="video/mp4">
+        <video id="intro-video" playsinline autoplay>
+            <source src="src/start.mp4" type="video/mp4">
             您的浏览器不支持视频标签。
         </video>
+        <button id="play-btn" class="hidden">点击播放</button>
         <button id="skip-btn">跳过 >></button>
     </div>
 
     <!-- 第二部分：密码输入 -->
     <div id="login-section" class="section">
-        <div class="background-layer" style="background-image: url('2.png');"></div>
+        <div class="background-layer" style="background-image: url('src/2.png');"></div>
         
         <div class="login-box">
             <h2>请输入开启密码</h2>
@@ -30,7 +31,7 @@
 
         <!-- 5秒后弹出的提示框 -->
         <div id="hint-box" class="hint-box hidden">
-            <img src="password.png" alt="提示">
+            <img src="src/password.png" alt="提示">
             <p>这是给你的提示哦~</p>
             <button id="close-hint">×</button>
         </div>
@@ -38,7 +39,7 @@
 
     <!-- 第三部分：信件展示 -->
     <div id="letter-section" class="section">
-        <div class="background-layer" style="background-image: url('1.png');"></div>
+        <div class="background-layer" style="background-image: url('src/1.png');"></div>
         
         <div class="letter-container">
             <div class="letter-paper">
