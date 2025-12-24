@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Microsoft YaHei", sans-serif;
+}
+
+/* 通用部分样式 */
+.section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out, visibility 1s;
+    z-index: 0;
+}
+
+.section.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+.background-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.8); /* 稍微压暗背景以突出内容 */
+    z-index: -1;
+}
+
+/* 视频部分 */
+#video-section {
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 保持视频比例 */
+}
+
+#skip-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid white;
+    border-radius: 20px;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: background 0.3s;
+}
+
+#skip-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* 登录部分 */
+#login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 300px;
+    transform: translateY(0);
+    transition: transform 0.5s;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+#password-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+#submit-btn {
+    width: 100%;
+    padding: 10px;
+    background: #ff7f50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+#submit-btn:hover {
+    background: #ff6347;
+}
+
+#error-msg {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    height: 20px;
+}
+
+/* 提示框 */
+.hint-box {
+    position: absolute;
+    right: -300px; /* 初始在屏幕外 */
+    top: 20%;
+    width: 250px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+    transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+}
+
+.hint-box.show {
+    right: 20px;
+}
+
+.hint-box img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#close-hint {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #999;
+}
+
+/* 信件部分 */
+#letter-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.letter-container {
+    perspective: 1000px;
+}
+
+.letter-paper {
+    width: 80vw;
+    max-width: 600px;
+    height: 70vh;
+    background: #fffdf0; /* 信纸颜色 */
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    overflow-y: auto;
+    position: relative;
+    transform-origin: top center;
+    transform: rotateX(90deg); /* 初始折叠状态 */
+    opacity: 0;
+    transition: transform 1.5s ease-out, opacity 1s;
+    background-image: linear-gradient(#e0e0e0 1px, transparent 1px);
+    background-size: 100% 2em;
+    line-height: 2em;
+}
+
+.letter-paper.open {
+    transform: rotateX(0deg);
+    opacity: 1;
+}
+
+.letter-content {
+    font-family: "KaiTi", "楷体", serif; /* 使用楷体更有信件感觉 */
+    font-size: 1.1rem;
+    color: #333;
+    white-space: pre-wrap; /* 保留换行 */
+}
+
+/* 滚动条美化 */
+.letter-paper::-webkit-scrollbar {
+    width: 6px;
+}
+.letter-paper::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
