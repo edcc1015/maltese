@@ -5,7 +5,7 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const PRIVATE_SRC = path.join(ROOT, 'private-src');
 const PUBLIC_SRC = path.join(ROOT, 'src');
-const ITERATIONS = 210000;
+const ITERATIONS = 50000;
 
 const assetPassphrase = process.env.ASSET_PASSPHRASE || 'maltese-local-assets-2026-07';
 const letterPassphrase = process.env.LETTER_PASSWORD;

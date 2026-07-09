@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const letterBackground = document.querySelector('[data-encrypted-bg="letter"]');
 
     const objectUrls = [];
+    let encryptedAssetsReady = false;
 
     // 信件内容会在密码正确后解密
     let letterContent = "正在加载信件...";
@@ -103,15 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
     async function checkPassword() {
         const input = passwordInput.value.trim();
         submitBtn.disabled = true;
-        errorMsg.textContent = "";
+        errorMsg.textContent = "正在解密信件...";
 
         try {
             const letter = await decryptResource(ENCRYPTED_ASSETS.letter, input);
             letterContent = new TextDecoder().decode(letter.bytes);
+            errorMsg.textContent = "";
             showLetterSection();
         } catch (error) {
             console.error('Letter decrypt failed:', error);
-            errorMsg.textContent = "密码不对哦，再想想~";
+            errorMsg.textContent = encryptedAssetsReady ? "密码不对哦，再想想~" : "资源还没加载好，请稍等再试~";
             passwordInput.value = "";
             // 简单的震动效果
             document.querySelector('.login-box').style.transform = 'translateX(10px)';
@@ -172,9 +174,11 @@ document.addEventListener('DOMContentLoaded', () => {
             loginBackground.style.backgroundImage = `url("${loginUrl}")`;
             letterBackground.style.backgroundImage = `url("${letterUrl}")`;
             hintImage.src = hintUrl;
+            encryptedAssetsReady = true;
         } catch (error) {
             console.error('Error loading encrypted assets:', error);
             hintImage.alt = "提示加载失败，请用 HTTPS 重新打开页面";
+            errorMsg.textContent = "图片资源加载失败，请刷新页面重试";
         }
     }
 
